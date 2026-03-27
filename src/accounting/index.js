@@ -13,6 +13,35 @@ function writeBalance(newBalance) {
   return storageBalance;
 }
 
+function creditAccount(amount) {
+  if (!Number.isFinite(amount) || amount < 0) {
+    throw new Error('Invalid credit amount');
+  }
+  const newBalance = readBalance() + amount;
+  writeBalance(newBalance);
+  return newBalance;
+}
+
+function debitAccount(amount) {
+  if (!Number.isFinite(amount) || amount < 0) {
+    throw new Error('Invalid debit amount');
+  }
+  const currentBalance = readBalance();
+  if (currentBalance < amount) {
+    return {
+      success: false,
+      message: 'Insufficient funds for this debit.',
+      balance: currentBalance,
+    };
+  }
+  const newBalance = currentBalance - amount;
+  writeBalance(newBalance);
+  return {
+    success: true,
+    balance: newBalance,
+  };
+}
+
 async function run() {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -99,6 +128,10 @@ if (require.main === module) {
 module.exports = {
   readBalance,
   writeBalance,
+  creditAccount,
+  debitAccount,
   run,
-  storageBalance,
+  resetBalance: (value) => {
+    storageBalance = value;
+  },
 };

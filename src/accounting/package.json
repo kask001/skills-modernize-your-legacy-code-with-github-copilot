@@ -4,10 +4,14 @@
   "description": "Rewritten accounting app from COBOL to Node.js",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest --runInBand"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
 }
